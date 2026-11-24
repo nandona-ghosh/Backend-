@@ -1,0 +1,7 @@
+target/
+.git/
+.env
+*.log
+*.py
+docs/
+load/

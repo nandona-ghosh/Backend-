@@ -1,0 +1,24 @@
+-- Fictional demonstration records only. Explicit IDs keep references readable. Safe to re-run.
+INSERT INTO product_lines(id,code,name) SELECT 1,'L1','Frozen peas' WHERE NOT EXISTS(SELECT 1 FROM product_lines WHERE id=1);
+INSERT INTO product_lines(id,code,name) SELECT 2,'L2','Mixed vegetables' WHERE NOT EXISTS(SELECT 1 FROM product_lines WHERE id=2);
+INSERT INTO product_lines(id,code,name) SELECT 3,'L3','Potato snacks' WHERE NOT EXISTS(SELECT 1 FROM product_lines WHERE id=3);
+INSERT INTO suppliers(id,code,name,contact) SELECT 1,'S1','Aravali Farms','demo@example.invalid' WHERE NOT EXISTS(SELECT 1 FROM suppliers WHERE id=1);
+INSERT INTO suppliers(id,code,name,contact) SELECT 2,'S2','Jaipur Produce','demo@example.invalid' WHERE NOT EXISTS(SELECT 1 FROM suppliers WHERE id=2);
+INSERT INTO batches(id,batch_number,numbering_epoch,line_id,production_date,shift,status,quantity_kg) SELECT 1,'B-001','PRE-RESET',1,DATE '2025-10-10','DAY','RELEASED',1000 WHERE NOT EXISTS(SELECT 1 FROM batches WHERE id=1);
+INSERT INTO batches(id,batch_number,numbering_epoch,line_id,production_date,shift,status,quantity_kg) SELECT 2,'B-001','POST-RESET',2,DATE '2025-11-12','NIGHT','HOLD',800 WHERE NOT EXISTS(SELECT 1 FROM batches WHERE id=2);
+INSERT INTO batches(id,batch_number,numbering_epoch,line_id,production_date,shift,status,quantity_kg) SELECT 3,'B-003','POST-RESET',3,DATE '2025-11-13','DAY','RELEASED',600 WHERE NOT EXISTS(SELECT 1 FROM batches WHERE id=3);
+INSERT INTO material_lots(id,supplier_id,material_name,lot_number,received_kg,received_date) SELECT 1,1,'Peas','P-101',1400,DATE '2025-10-09' WHERE NOT EXISTS(SELECT 1 FROM material_lots WHERE id=1);
+INSERT INTO material_lots(id,supplier_id,material_name,lot_number,received_kg,received_date) SELECT 2,2,'Mixed vegetables','V-102',900,DATE '2025-11-11' WHERE NOT EXISTS(SELECT 1 FROM material_lots WHERE id=2);
+INSERT INTO material_lots(id,supplier_id,material_name,lot_number,received_kg,received_date) SELECT 3,2,'Potatoes','T-103',700,DATE '2025-11-12' WHERE NOT EXISTS(SELECT 1 FROM material_lots WHERE id=3);
+INSERT INTO batch_materials(id,batch_id,material_lot_id,used_kg) SELECT 1,1,1,1000 WHERE NOT EXISTS(SELECT 1 FROM batch_materials WHERE id=1);
+INSERT INTO batch_materials(id,batch_id,material_lot_id,used_kg) SELECT 2,2,2,800 WHERE NOT EXISTS(SELECT 1 FROM batch_materials WHERE id=2);
+INSERT INTO batch_materials(id,batch_id,material_lot_id,used_kg) SELECT 3,3,3,600 WHERE NOT EXISTS(SELECT 1 FROM batch_materials WHERE id=3);
+INSERT INTO machines(id,line_id,code,name) SELECT 1,1,'M1','Pea freezer' WHERE NOT EXISTS(SELECT 1 FROM machines WHERE id=1);
+INSERT INTO machines(id,line_id,code,name) SELECT 2,2,'M2','Vegetable freezer' WHERE NOT EXISTS(SELECT 1 FROM machines WHERE id=2);
+INSERT INTO machines(id,line_id,code,name) SELECT 3,3,'M3','Potato freezer' WHERE NOT EXISTS(SELECT 1 FROM machines WHERE id=3);
+INSERT INTO machine_runs(id,batch_id,machine_id,started_at,ended_at) SELECT 1,1,1,TIMESTAMP WITH TIME ZONE '2025-10-10 04:00:00+00',TIMESTAMP WITH TIME ZONE '2025-10-10 08:00:00+00' WHERE NOT EXISTS(SELECT 1 FROM machine_runs WHERE id=1);
+INSERT INTO machine_runs(id,batch_id,machine_id,started_at,ended_at) SELECT 2,2,2,TIMESTAMP WITH TIME ZONE '2025-11-12 16:00:00+00',TIMESTAMP WITH TIME ZONE '2025-11-12 20:00:00+00' WHERE NOT EXISTS(SELECT 1 FROM machine_runs WHERE id=2);
+INSERT INTO machine_runs(id,batch_id,machine_id,started_at,ended_at) SELECT 3,3,3,TIMESTAMP WITH TIME ZONE '2025-11-13 04:00:00+00',TIMESTAMP WITH TIME ZONE '2025-11-13 08:00:00+00' WHERE NOT EXISTS(SELECT 1 FROM machine_runs WHERE id=3);
+INSERT INTO quality_tests(id,batch_id,sampled_at,recorded_at,result,moisture_percent,note) SELECT 1,1,TIMESTAMP WITH TIME ZONE '2025-10-10 08:00:00+00',TIMESTAMP WITH TIME ZONE '2025-10-11 08:00:00+00','PASS',68.50,'Recorded one day late' WHERE NOT EXISTS(SELECT 1 FROM quality_tests WHERE id=1);
+INSERT INTO quality_tests(id,batch_id,sampled_at,recorded_at,result,moisture_percent,note) SELECT 2,2,TIMESTAMP WITH TIME ZONE '2025-11-12 20:00:00+00',TIMESTAMP WITH TIME ZONE '2025-11-12 21:00:00+00','PENDING',NULL,'Night shift moisture not recorded' WHERE NOT EXISTS(SELECT 1 FROM quality_tests WHERE id=2);
+INSERT INTO quality_tests(id,batch_id,sampled_at,recorded_at,result,moisture_percent,note) SELECT 3,3,TIMESTAMP WITH TIME ZONE '2025-11-13 08:00:00+00',TIMESTAMP WITH TIME ZONE '2025-11-13 09:00:00+00','PASS',72.00,NULL WHERE NOT EXISTS(SELECT 1 FROM quality_tests WHERE id=3);
